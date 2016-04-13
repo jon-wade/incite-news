@@ -5,6 +5,10 @@ html {
 
 body {
     background-color: white;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    min-width: 375px;
 }
 
 
@@ -83,4 +87,141 @@ button {
 #search-result-numbers div span {
     background-color: white;
     border-radius: 7px;
+}
+
+/* ---- histogram ---- */
+
+/* still need to sort out the float for the sidebar */
+
+#histogram {
+    font-family: Georgia, serif;
+    margin-top: 50px;
+    margin-left: 20px;
+    margin-bottom: 50px;
+    color: white;
+    font-size:1em;
+    vertical-align: middle;
+}
+
+#histogram div {
+    margin: 25px 0;
+    height: 35px;
+}
+
+#histogram div:nth-child(even) {
+    background-color: rgba(170, 216, 241, 1);
+}
+
+#histogram div:nth-child(odd) {
+    background-color: rgba(0, 86, 137, 1);
+}
+
+#histogram div p {
+    display: inline-block;
+    margin: 8px 0 0 10px;
+}
+
+.score {
+    visibility: hidden;
+}
+
+#site1 {
+    width:300px;
+}
+
+#site2 {
+    width:150px;
+}
+
+#site3 {
+    width:90px;
+}
+
+#site4 {
+    width:80px;
+}
+
+#site5 {
+    width:70px;
+}
+
+#site6 {
+    width:60px;
+}
+
+/* ---- journo sidebar ---- */
+
+aside {
+    border: lightgray 1px solid;
+    width: 250px;
+    border-radius: 10px;
+    font-family: Helvetica, sans-serif;
+    margin: 0 auto;
+}
+
+dd {
+    margin-left: 0px;
+    font-size: 1em;
+}
+
+#side-bar-header {
+    font-size: 1em;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    border-bottom: lightgray 1px solid;
+}
+
+.thumbnail {
+    float: left;
+    clear: left;
+    margin-right: 30px;
+    margin-left: 20px;
+}
+
+.email {
+    margin-bottom: 30px;
+}
+
+.full-name {
+    padding-top:5px;
+}
+
+/* ---- footer ---- */
+
+footer {
+    background-color: rgba(0, 86, 137, 1);
+    height: 5%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    padding: 8px 0;
+    font-family: Helvetica, sans-serif;
+}
+
+/* ---- media queries ---- */
+
+@media screen and (min-width: 426px) {
+
+    aside {
+        position: relative;
+        top: -380px;
+        left: 185px;
+    }
+
+    #histogram {
+        margin-left: 75px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #histogram {
+        margin-left: 200px;
+    }
+}
+
+@media screen and (min-width: 1439px) {
+    #histogram {
+        margin-left: 400px;
+    }
 }
