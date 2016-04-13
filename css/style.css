@@ -67,7 +67,6 @@ button {
 
 /* ---- search result numbers ---- */
 
-/* this needs to move to bottom of screen for mobile version */
 
 #search-result-numbers {
     text-align: center;
@@ -90,8 +89,6 @@ button {
 }
 
 /* ---- histogram ---- */
-
-/* still need to sort out the float for the sidebar */
 
 #histogram {
     font-family: Georgia, serif;
@@ -207,6 +204,8 @@ footer {
         position: relative;
         top: -380px;
         left: 185px;
+        margin-bottom: -245px;
+        overflow: hidden;
     }
 
     #histogram {
@@ -224,4 +223,5 @@ footer {
     #histogram {
         margin-left: 400px;
     }
+
 }
