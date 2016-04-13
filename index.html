@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Guardian API</title>
+</head>
+<body>
+    <section id="title">
+        <h1><span class="light-blue">who</span><span class="white">influences</span> <span class="light-blue">the</span><span class="white">guardian?</span></h1>
+    </section>
+    <section id="search-input">
+        <input type="text" id="search-box" placeholder="e.g. Donald Trump" required><button id="search">search</button>
+        <p id="instructions">External site citations by <cite>The Guardian</cite> contained within articles relevant to the current search term.</p>
+    </section>
+    <section id="search-result-numbers">
+            <div>total links <span>100</span></div><div>total sites <span>45</span></div>
+    </section>
+    <section id="histogram">
+        <dl>
+            <dt id="site1">Site 1</dt>
+                <dd id="site1-score">20</dd>
+            <dt id="site2">Site 2</dt>
+                <dd id="site2-score">15</dd>
+            <dt id="site3">Site 3</dt>
+                <dd id="site3-score">7</dd>
+            <dt id="site4">Site 4</dt>
+                <dd id="site4-score">5</dd>
+            <dt id="site5">Site 5</dt>
+                <dd id="site5-score">3</dd>
+            <dt id="site6">Site 6</dt>
+                <dd id="site6-score">2</dd>
+        </dl>
+    </section>
+    <aside id="journo-sidebar">
+        <h1 id="side-bar-header">Key Journos</h1>
+        <ul id="journo-list">
+            <dl class="journo-record">
+                <dt>Full Name1</dt>
+                    <dd>email</dd>
+                    <dd>thumbnail</dd>
+            </dl>
+            <dl class="journo-record">
+                <dt>Full Name2</dt>
+                    <dd>email</dd>
+                    <dd>thumbnail</dd>
+            </dl>
+            <dl class="journo-record">
+                <dt>Full Name3</dt>
+                    <dd>email</dd>
+                    <dd>thumbnail</dd>
+            </dl>
+            <dl class="journo-record">
+                <dt>Full Name4</dt>
+                    <dd>email</dd>
+                    <dd>thumbnail</dd>
+            </dl>
+        </ul>
+    </aside>
+    <footer id="footer">
+        <p>&copy; Jon Wade, 2016</p>
+    </footer>
+    <script src="js/jquery-2.2.2.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

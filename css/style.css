@@ -1,0 +1,86 @@
+html {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: white;
+}
+
+
+/* ---- title bar ---- */
+
+h1 {
+    font-family: Georgia, serif;
+    font-size:2.2em;
+}
+
+ul {
+    padding-left: 0px;
+}
+
+#title {
+    background-color: rgba(0,86,137,1);
+    text-align: center;
+    padding: 1px 0px;
+}
+
+.white {
+    color:white;
+}
+
+.light-blue {
+    color: rgba(170, 216, 241, 1);
+}
+
+
+/* ---- search box ---- */
+
+#search-input {
+    text-align: center;
+}
+
+#search-box {
+    height: 28px;
+    width: 40%;
+}
+
+button {
+    height: 30px;
+}
+
+#search-box, button {
+    margin: 10px 10px 0 10px;
+    font-family: Georgia, serif;
+    font-size: 1em;
+}
+
+#search-input p {
+    font-size: 0.7em;
+    margin: 5px 15%;
+}
+
+
+/* ---- search result numbers ---- */
+
+/* this needs to move to bottom of screen for mobile version */
+
+#search-result-numbers {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#search-result-numbers div {
+    display: inline;
+    background-color: lightgray;
+    padding: 5px;
+    margin: 0 5px;
+    border-radius: 10px;
+    font-size: 0.7em;
+    font-family: Helvetica, sans-serif;
+}
+
+#search-result-numbers div span {
+    background-color: white;
+    border-radius: 7px;
+}
