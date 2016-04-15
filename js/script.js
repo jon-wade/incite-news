@@ -29,6 +29,7 @@ $(document).ready(function(){
         //we now need to wait for getTotalPages and its related functions to process the data and store in the global variables
         //if we don't wait, the variable return as undefined as there is quite a lot of processing going on
         console.log('Waiting...');
+        $('#please-wait').slideDown(500);
         setTimeout(function() {
 
             //filter the erroneous domains from the overall list of domains
@@ -37,8 +38,7 @@ $(document).ready(function(){
             getTopSix(domains);
             //push them to the page
             renderSiteResults();
-
-
+            $('#please-wait').slideUp(500);
 
         }, 5000);
         setTimeout(function() {console.log(journo)}, 5000);
@@ -205,7 +205,4 @@ function renderSiteResults(){
     }
 }
 
-function spinner(){
-
-}
 
