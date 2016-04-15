@@ -9,7 +9,7 @@ var domains = {};
 //an array to store the top 6 cited external sites for a given search term
 var topSix=[];
 //a suppression array, to filter out trash from the domains object
-var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com'];
+var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com'];
 
 
 $(document).ready(function(){
@@ -42,6 +42,8 @@ $(document).ready(function(){
             $('#please-wait').slideUp(500);
             //draw histogram
             drawHistogram(topSix);
+            //update site and link totals
+            updateTotals(domains);
 
         }, 5000);
         setTimeout(function() {console.log(journo)}, 5000);
@@ -107,30 +109,37 @@ function getGuardianContent(currentPage){
 function parseObj(obj) {
     for (var i in obj){
         //console.log('Article: ' + i);
-        var body = obj[i].fields.body;
-        //console.log(body);
-        //this pulls the domain out of the body results by matching //   / within the string
-        var anchor = body.match(/\/\/.*?\//g);
+        if (obj[i].fields != undefined) {
 
-        for (var j in anchor){
-            //this slices off the // and / from the string
-            anchor[j] = anchor[j].slice(2,-1);
-            //add the result into the object to store the domain names
-            addOrIncSite(anchor[j]);
-        }
+            var body = obj[i].fields.body;
+            //console.log(body);
+            //this pulls the domain out of the body results by matching //   / within the string
+            //sometimes the body property is undefined, so ignore those body objects that are undefined
+            if (body != undefined) {
+                var anchor = body.match(/\/\/.*?\//g);
 
-        if (obj[i].fields.hasOwnProperty('byline')) {
-            var byline = obj[i].fields.byline;
-            //console.log(byline);
-            if (byline.search('and') == -1){
-                if(byline.search(',') == -1){
-                    addOrIncJournoStore(byline);
-                    //console.log(byline + ' byline added');
+                for (var j in anchor) {
+                    //this slices off the // and / from the string
+                    anchor[j] = anchor[j].slice(2, -1);
+                    //add the result into the object to store the domain names
+                    addOrIncSite(anchor[j]);
                 }
             }
-            else {
-                //console.log('byline anomaly - added to anomaly');
-                addOrIncJournErrorStore(byline);
+
+
+            if (obj[i].fields.hasOwnProperty('byline')) {
+                var byline = obj[i].fields.byline;
+                //console.log(byline);
+                if (byline.search('and') == -1) {
+                    if (byline.search(',') == -1) {
+                        addOrIncJournoStore(byline);
+                        //console.log(byline + ' byline added');
+                    }
+                }
+                else {
+                    //console.log('byline anomaly - added to anomaly');
+                    addOrIncJournErrorStore(byline);
+                }
             }
         }
     }
@@ -173,7 +182,6 @@ function suppressDomains(domains) {
         for (var j in suppression) {
             //console.log(suppression[j]);
             if (i == suppression[j]) {
-                console.log('matchy matchy');
                 domains[suppression[j]] = null;
             }
         }
@@ -238,7 +246,28 @@ function drawHistogram(topSix){
     $('div.site5').css('width', siteFiveSize+'%');
     $('div.site6').css('width', siteSixSize+'%');
 
+}
 
+function updateTotals(domains){
+    //get total sites
+
+    //get total links
+    //get total non-null sites
+    var linkSum = 0;
+    var siteSum = 0;
+    for (site in domains){
+        linkSum += domains[site];
+        if (domains[site] != null){
+            siteSum++;
+        }
+    }
+
+
+    $('div#total-links span').text(linkSum);
+    $('div#total-sites span').text(siteSum);
+
+    console.log('Total links: ' + linkSum);
+    console.log('Total number of keys in object: ' + Object.keys(domains).length);
 }
 
 

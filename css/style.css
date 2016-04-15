@@ -96,6 +96,7 @@ button {
 #search-result-numbers div span {
     background-color: white;
     border-radius: 7px;
+    padding: 0px 3px;
 }
 
 /* ---- histogram ---- */
