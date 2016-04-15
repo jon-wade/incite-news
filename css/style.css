@@ -167,11 +167,9 @@ div.site6 {
 
 aside {
     border: lightgray 1px solid;
-    width: 250px;
+    width: 275px;
     border-radius: 10px;
-    font-family: Helvetica, sans-serif;
     margin: 0 auto;
-    display: none;
 }
 
 dd {
@@ -186,19 +184,13 @@ dd {
     border-bottom: lightgray 1px solid;
 }
 
-.thumbnail {
-    float: left;
-    clear: left;
-    margin-right: 30px;
-    margin-left: 20px;
+#journo-list dd {
+    margin: 5px 0px 5px 30px;
 }
 
-.email {
-    margin-bottom: 30px;
-}
-
-.full-name {
-    padding-top:5px;
+#journo-list dd a:link, a:hover, a:visited {
+    color: black;
+    text-decoration: none;
 }
 
 /* ---- footer ---- */
@@ -220,9 +212,9 @@ footer {
 
     aside {
         position: relative;
-        top: -380px;
-        left: 185px;
-        margin-bottom: -245px;
+        top: -530px;
+        left: 200px;
+        margin-bottom: -270px;
         overflow: hidden;
     }
 

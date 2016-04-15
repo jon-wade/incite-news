@@ -8,8 +8,10 @@ var journoError = {};
 var domains = {};
 //an array to store the top 6 cited external sites for a given search term
 var topSix=[];
+//an array to store the top 6 journalist for a given subject
+var topSixJourno = [];
 //a suppression array, to filter out trash from the domains object
-var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com'];
+var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com', 'blogs.guardian.co.uk', 'arts.guardian.co.uk', 'politics.guardian.co.uk'];
 
 
 $(document).ready(function(){
@@ -34,16 +36,24 @@ $(document).ready(function(){
 
             //filter the erroneous domains from the overall list of domains
             suppressDomains(domains);
-            //put the top 6 into an array
-            getTopSix(domains);
+            //put the top 6 sites into an array
+            getTopSix(domains, topSix);
             //push them to the page
             renderSiteResults();
+            //put top 6 journos into an array
+            getTopSix(journo, topSixJourno);
+            console.log(topSixJourno);
+            //push them to the page
+            renderJournoResult();
             //hide please wait section
             $('#please-wait').slideUp(500);
             //draw histogram
             drawHistogram(topSix);
             //update site and link totals
             updateTotals(domains);
+
+
+
 
         }, 5000);
         setTimeout(function() {console.log(journo)}, 5000);
@@ -130,16 +140,9 @@ function parseObj(obj) {
             if (obj[i].fields.hasOwnProperty('byline')) {
                 var byline = obj[i].fields.byline;
                 //console.log(byline);
-                if (byline.search('and') == -1) {
-                    if (byline.search(',') == -1) {
-                        addOrIncJournoStore(byline);
-                        //console.log(byline + ' byline added');
-                    }
-                }
-                else {
-                    //console.log('byline anomaly - added to anomaly');
-                    addOrIncJournErrorStore(byline);
-                }
+                byline = cleanJournoString(byline);
+                addOrIncJournoStore(byline);
+                console.log(byline + ' byline added');
             }
         }
     }
@@ -189,30 +192,43 @@ function suppressDomains(domains) {
     console.log(domains);
 }
 
-function getTopSix(domains) {
+function getTopSix(obj, arr) {
     //this function cycles through the domain array 6 times and takes the largest key-value domain-count pair and adds pushes it
     //into a multi-dimensional array. It then sets that highest property to null, and repeats the process.
     for (var j = 0; j < 6; j++) {
         //console.log('j loop number: ' + j);
         var max = 0;
-        for (var i in domains) {
+        for (var i in obj) {
             //console.log('checking...' + i);
-            if (domains[i] > max) {
-                max = domains[i];
+            if (obj[i] > max) {
+                max = obj[i];
                 //console.log('updating topSix');
-                topSix[j] = [i, domains[i]];
+                arr[j] = [i, obj[i]];
             }
         }
-        var removeHighest = topSix[j][0];
-        domains[removeHighest] = null;
+        var removeHighest = arr[j][0];
+        obj[removeHighest] = null;
     }
-    console.log(topSix);
+    console.log(obj);
 }
 
 function renderSiteResults(){
     for (var i=1; i<7; i++){
         $('p.site' + i).text(topSix[i-1][0]);
         $('div.site' + i + ' p.score').text(topSix[i-1][1]);
+    }
+}
+
+function renderJournoResult(){
+    for (var i=1; i<7; i++){
+        var linkName = topSixJourno[i-1][0].split(' ');
+        linkName = linkName.join('').toLowerCase();
+        console.log(linkName);
+
+
+        $('#journo-list dd:nth-child(' + i + ')').text(topSixJourno[i-1][0]);
+
+    //    $('#journo-list dd:nth-child(' + i + ')').html('<a target="_blank" alt="link to journalist profile on The Guardian" title="link to journalist profile on The Guardian" href="http://www.theguardian.com/profile/' + linkName + '">' + topSixJourno[i-1][0] + '</a>');
     }
 }
 
@@ -270,4 +286,14 @@ function updateTotals(domains){
     console.log('Total number of keys in object: ' + Object.keys(domains).length);
 }
 
+function cleanJournoString(byline){
+    var str=byline;
+    var delimiter = ' ';
+    var strArr = str.split(delimiter);
+    console.log('StrArr = ' + strArr);
+    strArr = strArr.slice(0, 2);
+    var result = strArr.join(delimiter);
+    console.log(result);
+    return result;
+}
 
