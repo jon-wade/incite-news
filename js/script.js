@@ -9,7 +9,7 @@ var domains = {};
 //an array to store the top 6 cited external sites for a given search term
 var topSix=[];
 //a suppression array, to filter out trash from the domains object
-var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org'];
+var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com'];
 
 
 $(document).ready(function(){
@@ -38,7 +38,10 @@ $(document).ready(function(){
             getTopSix(domains);
             //push them to the page
             renderSiteResults();
+            //hide please wait section
             $('#please-wait').slideUp(500);
+            //draw histogram
+            drawHistogram(topSix);
 
         }, 5000);
         setTimeout(function() {console.log(journo)}, 5000);
@@ -203,6 +206,39 @@ function renderSiteResults(){
         $('p.site' + i).text(topSix[i-1][0]);
         $('div.site' + i + ' p.score').text(topSix[i-1][1]);
     }
+}
+
+function drawHistogram(topSix){
+    //work out sum of topSix scores
+    var sum=0;
+    for (var i=0; i<topSix.length; i++){
+        sum = sum + topSix[i][1];
+    }
+    console.log(sum);
+    //work out the length of each bar as a % of the top result
+    var siteOneSize = ((topSix[0][1])/sum);
+    var siteTwoSize = Math.round((((topSix[1][1])/sum)/siteOneSize)*100);
+    console.log('site2 size: ' + (siteTwoSize));
+    var siteThreeSize = Math.round((((topSix[2][1])/sum)/siteOneSize)*100);
+    console.log('site3 size: ' + (siteThreeSize));
+    var siteFourSize = Math.round((((topSix[3][1])/sum)/siteOneSize)*100);
+    console.log('site4 size: ' + (siteFourSize));
+    var siteFiveSize = Math.round((((topSix[4][1])/sum)/siteOneSize)*100);
+    console.log('site5 size: ' + (siteFiveSize));
+    var siteSixSize = Math.round((((topSix[5][1])/sum)/siteOneSize)*100);
+    console.log('site6 size: ' + (siteSixSize));
+    siteOneSize=100;
+    console.log('site1 size: ' + siteOneSize);
+
+    //set width of divs
+    $('div.site1').css('width', siteOneSize+'%');
+    $('div.site2').css('width', siteTwoSize+'%');
+    $('div.site3').css('width', siteThreeSize+'%');
+    $('div.site4').css('width', siteFourSize+'%');
+    $('div.site5').css('width', siteFiveSize+'%');
+    $('div.site6').css('width', siteSixSize+'%');
+
+
 }
 
 
