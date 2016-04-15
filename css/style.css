@@ -95,7 +95,7 @@ button {
     margin-top: 50px;
     margin-left: 20px;
     margin-bottom: 50px;
-    color: white;
+    color: black;
     font-size:1em;
     vertical-align: middle;
 }
@@ -105,12 +105,16 @@ button {
     height: 35px;
 }
 
-#histogram div:nth-child(even) {
+#histogram div.even {
     background-color: rgba(170, 216, 241, 1);
 }
 
-#histogram div:nth-child(odd) {
+#histogram div.odd {
     background-color: rgba(0, 86, 137, 1);
+}
+
+#histogram p {
+    margin-top:-20px;
 }
 
 #histogram div p {
@@ -119,30 +123,30 @@ button {
 }
 
 .score {
-    visibility: hidden;
+    color: white;
 }
 
-#site1 {
+div.site1 {
     width:300px;
 }
 
-#site2 {
+div.site2 {
     width:150px;
 }
 
-#site3 {
+div.site3 {
     width:90px;
 }
 
-#site4 {
+div.site4 {
     width:80px;
 }
 
-#site5 {
+div.site5 {
     width:70px;
 }
 
-#site6 {
+div.site6 {
     width:60px;
 }
 

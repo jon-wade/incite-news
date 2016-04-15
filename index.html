@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>Guardian API</title>
 </head>
@@ -14,16 +15,26 @@
         <input type="text" id="search-box" placeholder="e.g. Donald Trump" required><button id="search">search</button>
         <p id="instructions">External site citations by <cite>The Guardian</cite> contained within articles relevant to the current search term.</p>
     </section>
+    <section id="please-wait">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></i>
+        <span class="sr-only">Loading...</span>
+    </section>
     <section id="search-result-numbers">
             <div>total links <span>100</span></div><div>total sites <span>45</span></div>
     </section>
     <section id="histogram">
-        <div id="site1"><p class="site-name">Site 1</p><p class="score">30</p></div>
-        <div id="site2"><p class="site-name">Site 2</p><p class="score">15</p></div>
-        <div id="site3"><p class="site-name">Site 3</p><p class="score">9</p></div>
-        <div id="site4"><p class="site-name">Site 4</p><p class="score">8</p></div>
-        <div id="site5"><p class="site-name">Site 5</p><p class="score">7</p></div>
-        <div id="site6"><p class="site-name">Site 6</p><p class="score">6</p></div>
+        <div class="site1 odd"><p class="score"></p></div>
+        <p class="site1">Site 1</p>
+        <div class="site2 even"><p class="score"></p></div>
+        <p class="site2">Site 2</p>
+        <div class="site3 odd"><p class="score"></p></div>
+        <p class="site3">Site 3</p>
+        <div class="site4 even"><p class="score"></p></div>
+        <p class="site4">Site 4</p>
+        <div class="site5 odd"><p class="score"></p></div>
+        <p class="site5">Site 5</p>
+        <div class="site6 even"><p class="score"></p></div>
+        <p class="site6">Site 6</p>
     </section>
     <aside id="journo-sidebar">
         <h1 id="side-bar-header">Key Journos</h1>

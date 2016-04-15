@@ -8,6 +8,8 @@ var journoError = {};
 var domains = {};
 //an array to store the top 6 cited external sites for a given search term
 var topSix=[];
+//a suppression array, to filter out trash from the domains object
+var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org'];
 
 
 $(document).ready(function(){
@@ -27,7 +29,18 @@ $(document).ready(function(){
         //we now need to wait for getTotalPages and its related functions to process the data and store in the global variables
         //if we don't wait, the variable return as undefined as there is quite a lot of processing going on
         console.log('Waiting...');
-        setTimeout(function() {getTopSix(domains);}, 5000);
+        setTimeout(function() {
+
+            //filter the erroneous domains from the overall list of domains
+            suppressDomains(domains);
+            //put the top 6 into an array
+            getTopSix(domains);
+            //push them to the page
+            renderSiteResults();
+
+
+
+        }, 5000);
         setTimeout(function() {console.log(journo)}, 5000);
 
 
@@ -150,22 +163,32 @@ function addOrIncJournErrorStore(byline){
     }
 }
 
-function suppressDomains(domains){
+function suppressDomains(domains) {
     //code to go here
+    for (var i in domains) {
+        //console.log(i);
+        for (var j in suppression) {
+            //console.log(suppression[j]);
+            if (i == suppression[j]) {
+                console.log('matchy matchy');
+                domains[suppression[j]] = null;
+            }
+        }
+    }
+    console.log(domains);
 }
-
 
 function getTopSix(domains) {
     //this function cycles through the domain array 6 times and takes the largest key-value domain-count pair and adds pushes it
     //into a multi-dimensional array. It then sets that highest property to null, and repeats the process.
-    for (var j=0; j<6; j++){
-        console.log('j loop number: ' + j);
-        var max=0;
-        for (var i in domains){
-            console.log('checking...' + i);
-            if(domains[i]>max){
-                max=domains[i];
-                console.log('updating topSix');
+    for (var j = 0; j < 6; j++) {
+        //console.log('j loop number: ' + j);
+        var max = 0;
+        for (var i in domains) {
+            //console.log('checking...' + i);
+            if (domains[i] > max) {
+                max = domains[i];
+                //console.log('updating topSix');
                 topSix[j] = [i, domains[i]];
             }
         }
@@ -173,5 +196,16 @@ function getTopSix(domains) {
         domains[removeHighest] = null;
     }
     console.log(topSix);
+}
+
+function renderSiteResults(){
+    for (var i=1; i<7; i++){
+        $('p.site' + i).text(topSix[i-1][0]);
+        $('div.site' + i + ' p.score').text(topSix[i-1][1]);
+    }
+}
+
+function spinner(){
+
 }
 
