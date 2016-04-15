@@ -11,7 +11,7 @@ var topSix=[];
 //an array to store the top 6 journalist for a given subject
 var topSixJourno = [];
 //a suppression array, to filter out trash from the domains object
-var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com', 'blogs.guardian.co.uk', 'arts.guardian.co.uk', 'politics.guardian.co.uk'];
+var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com', 'blogs.guardian.co.uk', 'arts.guardian.co.uk', 'politics.guardian.co.uk', 'click.email.usoccer.com', 'www.w3.org', 'witness.guardian.co.uk', 'www.top-employers.com', 'bit.ly', 'youtu.be', 'play.google.com', 'www.amazon.co.uk', 'soundcloud.com', 'www.gramfeed.com', 'www.eventbrite.co.uk'];
 
 
 $(document).ready(function(){
@@ -52,11 +52,7 @@ $(document).ready(function(){
             //update site and link totals
             updateTotals(domains);
 
-
-
-
         }, 5000);
-        setTimeout(function() {console.log(journo)}, 5000);
 
 
     });
@@ -85,7 +81,7 @@ function runPagesTimes(response) {
     console.log(response);
     var totalPages = response.response.pages;
     console.log(totalPages);
-    for (var i=1; i<=20; i++){
+    for (var i=1; i<=50; i++){
         //console.log(i);
         //access the API and grab the JSON object
         getGuardianContent(i);
@@ -142,7 +138,7 @@ function parseObj(obj) {
                 //console.log(byline);
                 byline = cleanJournoString(byline);
                 addOrIncJournoStore(byline);
-                console.log(byline + ' byline added');
+                //console.log(byline + ' byline added');
             }
         }
     }
@@ -189,7 +185,7 @@ function suppressDomains(domains) {
             }
         }
     }
-    console.log(domains);
+    //console.log(domains);
 }
 
 function getTopSix(obj, arr) {
@@ -209,21 +205,24 @@ function getTopSix(obj, arr) {
         var removeHighest = arr[j][0];
         obj[removeHighest] = null;
     }
-    console.log(obj);
+    //console.log(obj);
 }
 
 function renderSiteResults(){
+    $('#histogram').css('visibility', 'visible');
     for (var i=1; i<7; i++){
         $('p.site' + i).text(topSix[i-1][0]);
         $('div.site' + i + ' p.score').text(topSix[i-1][1]);
+
     }
 }
 
 function renderJournoResult(){
+    $('aside').css('visibility', 'visible');
     for (var i=1; i<7; i++){
         var linkName = topSixJourno[i-1][0].split(' ');
         linkName = linkName.join('').toLowerCase();
-        console.log(linkName);
+        //console.log(linkName);
 
 
         $('#journo-list dd:nth-child(' + i + ')').text(topSixJourno[i-1][0]);
@@ -238,21 +237,21 @@ function drawHistogram(topSix){
     for (var i=0; i<topSix.length; i++){
         sum = sum + topSix[i][1];
     }
-    console.log(sum);
+    //console.log(sum);
     //work out the length of each bar as a % of the top result
     var siteOneSize = ((topSix[0][1])/sum);
     var siteTwoSize = Math.round((((topSix[1][1])/sum)/siteOneSize)*100);
-    console.log('site2 size: ' + (siteTwoSize));
+    //console.log('site2 size: ' + (siteTwoSize));
     var siteThreeSize = Math.round((((topSix[2][1])/sum)/siteOneSize)*100);
-    console.log('site3 size: ' + (siteThreeSize));
+    //console.log('site3 size: ' + (siteThreeSize));
     var siteFourSize = Math.round((((topSix[3][1])/sum)/siteOneSize)*100);
-    console.log('site4 size: ' + (siteFourSize));
+    //console.log('site4 size: ' + (siteFourSize));
     var siteFiveSize = Math.round((((topSix[4][1])/sum)/siteOneSize)*100);
-    console.log('site5 size: ' + (siteFiveSize));
+    //console.log('site5 size: ' + (siteFiveSize));
     var siteSixSize = Math.round((((topSix[5][1])/sum)/siteOneSize)*100);
-    console.log('site6 size: ' + (siteSixSize));
+    //console.log('site6 size: ' + (siteSixSize));
     siteOneSize=100;
-    console.log('site1 size: ' + siteOneSize);
+    //console.log('site1 size: ' + siteOneSize);
 
     //set width of divs
     $('div.site1').css('width', siteOneSize+'%');
@@ -282,18 +281,18 @@ function updateTotals(domains){
     $('div#total-links span').text(linkSum);
     $('div#total-sites span').text(siteSum);
 
-    console.log('Total links: ' + linkSum);
-    console.log('Total number of keys in object: ' + Object.keys(domains).length);
+    //console.log('Total links: ' + linkSum);
+    //console.log('Total number of keys in object: ' + Object.keys(domains).length);
 }
 
 function cleanJournoString(byline){
     var str=byline;
     var delimiter = ' ';
     var strArr = str.split(delimiter);
-    console.log('StrArr = ' + strArr);
+    //console.log('StrArr = ' + strArr);
     strArr = strArr.slice(0, 2);
     var result = strArr.join(delimiter);
-    console.log(result);
+    //console.log(result);
     return result;
 }
 

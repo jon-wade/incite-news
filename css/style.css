@@ -61,7 +61,7 @@ button {
 
 #search-input p {
     font-size: 0.7em;
-    margin: 5px 15%;
+    margin: 5px 25%;
 }
 
 #please-wait {
@@ -70,7 +70,7 @@ button {
 }
 
 #please-wait p {
-    margin-top: 5px;
+    margin-top: 20px;
     font-size: 1em;
     font-family: Helvetica, sans-serif;
 }
@@ -110,6 +110,7 @@ button {
     color: black;
     font-size:1em;
     vertical-align: middle;
+    visibility: hidden;
 }
 
 #histogram div {
@@ -170,6 +171,7 @@ aside {
     width: 275px;
     border-radius: 10px;
     margin: 0 auto;
+    visibility: hidden;
 }
 
 dd {
