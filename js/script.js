@@ -81,7 +81,8 @@ function runPagesTimes(response) {
     console.log(response);
     var totalPages = response.response.pages;
     console.log(totalPages);
-    for (var i=1; i<=50; i++){
+    //get the first 10 pages of results, each page has 10 articles, returning 100 articles in total
+    for (var i=1; i<=10; i++){
         //console.log(i);
         //access the API and grab the JSON object
         getGuardianContent(i);
