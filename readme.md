@@ -11,7 +11,7 @@ Why is this app useful? If you are struggling to get *The Guardian* to write abo
 
 ##Initial UX
 
-The initial mobile and desktop wireframes can be seen below
+The initial mobile and desktop wireframes can be seen below:
 
 ![Initial Wireframes](http://jonwade.digital/hosted-projects/unit-one/guardian-api/img/guardian-api-image.jpg)
 
@@ -22,6 +22,7 @@ You can access a working prototype of the app here: http://jonwade.digital/hoste
 ##Functionality
 The app's functionality includes:
 
+* Analysis of 100 most relevant articles returned by *The Guardian* on any given search term
 * Listing the top 6 external domains cited by *The Guardian* on any given search query with links to those sites
 * A histogram plot of the relative popularity of those top 6 sites
 * Listing the top 6 bylines associated with any given search query with Google search links associated to those bylines
@@ -31,7 +32,7 @@ The app's functionality includes:
 
 ##Technical
 
-The app is built entirely in jQuery and makes use of AJAX calls to The Guardians Open Plarform API to return the data. All data is held in memory during the user's session. It has been built to be fully responsive across mobile, tablet and desktop screen resolutions.
+The app is built entirely in jQuery and makes use of AJAX calls to The Guardians Open Platform API to return the data. All data is held in memory during the user's session. It has been built to be fully responsive across mobile, tablet and desktop screen resolutions.
 
 ##Development Roadmap
 
