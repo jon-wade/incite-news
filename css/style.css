@@ -51,21 +51,28 @@ ul {
 
 button {
     height: 30px;
+    border-radius: 5px;
+    background-color: #0b3e6f;
+    color: white;
+    cursor: pointer;
+
 }
 
 #search-box, button {
     margin: 10px 10px 0 10px;
+    padding: 3px 14px 5px 14px;
     font-family: Georgia, serif;
     font-size: 1em;
 }
 
 #search-input p {
-    font-size: 0.7em;
-    margin: 5px 25%;
+    font-size: 1em;
+    margin: 5px 9%;
+    color: #0b3e6f;
 }
 
 #please-wait {
-    margin-top: 30px;
+    margin-top: 60px;
     display: none;
 }
 
@@ -103,9 +110,7 @@ button {
 
 #histogram {
     font-family: Georgia, serif;
-    margin-top: 50px;
-    margin-left: 20px;
-    margin-bottom: 50px;
+    margin: 50px auto;
     max-width: 330px;
     color: black;
     font-size:1em;
@@ -114,7 +119,7 @@ button {
 }
 
 #histogram div {
-    margin: 25px 0;
+    margin: 5px 0;
     height: 35px;
     max-width: 100%;
 }
@@ -140,28 +145,22 @@ button {
     color: white;
 }
 
-div.site1 {
-    width:0%;
+div.site1, div.site2, div.site3, div.site4, div.site5, div.site6 {
+    width:0;
 }
 
-div.site2 {
-    width:0%;
+div#site1 p, div#site2 p, div#site3 p, div#site4 p, div#site5 p, div#site6 p {
+    margin-left:0;
 }
 
-div.site3 {
-    width:0%;
+.external-link:link {
+    text-decoration: none;
+    cursor: pointer;
+    color: #0a0a0a;
 }
 
-div.site4 {
-    width:0%;
-}
-
-div.site5 {
-    width:0%;
-}
-
-div.site6 {
-    width:0%;
+.external-link:visited {
+    color: #0b3e6f;
 }
 
 /* ---- journo sidebar ---- */
@@ -188,6 +187,11 @@ dd {
 
 #journo-list dd {
     margin: 5px 0px 5px 30px;
+    width: 80%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: auto;
+    font-style: italic;
 }
 
 #journo-list dd a:link, a:hover, a:visited {
@@ -210,19 +214,28 @@ footer {
 
 /* ---- media queries ---- */
 
-@media screen and (min-width: 426px) {
+@media screen and (min-width: 740px) {
 
     aside {
         position: relative;
         top: -530px;
-        left: 200px;
+        left: 180px;
         margin-bottom: -270px;
         overflow: hidden;
     }
 
     #histogram {
-        margin-left: 75px;
+        font-family: Georgia, serif;
+        margin-top: 50px;
+        margin-left: 10%;
+        margin-bottom: 50px;
+        max-width: 330px;
+        color: black;
+        font-size:1em;
+        vertical-align: middle;
+        visibility: hidden;
     }
+
 }
 
 @media screen and (min-width: 1024px) {
@@ -235,7 +248,18 @@ footer {
 @media screen and (min-width: 1439px) {
     #histogram {
         margin-left: 400px;
-
     }
+
+    #search-input p {
+        margin: 5px 25%;
+    }
+
+}
+
+@media screen and (min-width: 2560px) {
+    #histogram {
+        margin-left: 33%;
+    }
+
 
 }

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>Guardian API | Jon Wade</title>
 </head>
@@ -13,7 +12,7 @@
     </section>
     <section id="search-input">
         <input type="text" id="search-box" placeholder="e.g. Donald Trump" required><button id="search">search</button>
-        <p id="instructions">Analyse the most popular external site citations by <cite>The Guardian</cite> contained within the top hundred most relevant articles related to the search term you input above. Links to <cite>The Guardian</cite> properties and key social media sites are excluded from the returned results.</p>
+        <p id="instructions">Analyse the most popular external site citations by <cite>The Guardian</cite> contained within the top hundred most relevant articles related to the search term you input above. Citations of <cite>The Guardian</cite> properties and key social media sites are excluded from the returned results.</p>
         <section id="please-wait">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             <p>Please wait...retrieving data</p>
@@ -23,21 +22,45 @@
             <div id="total-links">total links <span>0</span></div><div id="total-sites">total sites <span>0</span></div>
     </section>
     <section id="histogram">
-        <div class="site1 odd"><p class="score"></p></div>
-        <p class="site1">Site 1</p>
-        <div class="site2 even"><p class="score"></p></div>
-        <p class="site2">Site 2</p>
-        <div class="site3 odd"><p class="score"></p></div>
-        <p class="site3">Site 3</p>
-        <div class="site4 even"><p class="score"></p></div>
-        <p class="site4">Site 4</p>
-        <div class="site5 odd"><p class="score"></p></div>
-        <p class="site5">Site 5</p>
-        <div class="site6 even"><p class="score"></p></div>
-        <p class="site6">Site 6</p>
+        <div class="site1 odd">
+            <p class="score"></p>
+        </div>
+        <div id="site1">
+            <br>
+        </div>
+        <div class="site2 even">
+            <p class="score"></p>
+        </div>
+        <div id="site2">
+            <br>
+        </div>
+        <div class="site3 odd">
+            <p class="score"></p>
+        </div>
+        <div id="site3">
+            <br>
+        </div>
+        <div class="site4 even">
+            <p class="score"></p>
+        </div>
+        <div id="site4">
+            <br>
+        </div>
+        <div class="site5 odd">
+            <p class="score"></p>
+        </div>
+        <div id="site5">
+            <br>
+        </div>
+        <div class="site6 even">
+            <p class="score"></p>
+        </div>
+        <div id="site6">
+            <br>
+        </div>
     </section>
     <aside id="journo-sidebar">
-        <h1 id="side-bar-header">Key Journos</h1>
+        <h1 id="side-bar-header">Key Bylines</h1>
         <dl id="journo-list">
             <dd>Full Name1</dd>
             <dd>Full Name2</dd>
@@ -53,6 +76,6 @@
     </footer>
     <script src="js/jquery-2.2.2.js"></script>
     <script src="js/underscore.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script-refactored.js"></script>
 </body>
 </html>

@@ -11,57 +11,60 @@ var topSix=[];
 //an array to store the top 6 journalist for a given subject
 var topSixJourno = [];
 //a suppression array, to filter out trash from the domains object
-var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com', 'blogs.guardian.co.uk', 'arts.guardian.co.uk', 'politics.guardian.co.uk', 'click.email.usoccer.com', 'www.w3.org', 'witness.guardian.co.uk', 'www.top-employers.com', 'bit.ly', 'youtu.be', 'play.google.com', 'www.amazon.co.uk', 'soundcloud.com', 'www.gramfeed.com', 'www.eventbrite.co.uk'];
+var suppression=['brightcove.com', 'theguardian.com', 'theguardian.co.uk', 'guim.co.uk', 'vox-cdn.com', 'gu.com', 'formstack.com', 'mail.google.com', 'guardianapis.com', 'cdn.theguardian.tv', 'media.guim.co.uk', 'multimedia.guardianapis.com', 'static.guim.co.uk', 'www.theguardian.com', 'interactive.guim.co.uk', 't.co', 'twitter.com', 'www.youtube.com', 'guardiannewsampampmedia.formstack.com', 'preview.gutools.co.uk', 'www.guardian.co.uk', 'witness.theguardian.com', 'teachers.theguardian.com', 'assets.guim.co.uk', 'platform.twitter.com', 'www.facebook.com','profile.theguardian.com', 'bookshop.theguardian.com', '42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB', 'platform.instagram.com', 'instagram.com' , 'urldefense.proofpoint.com', 'register.theguardian.com', 'datawrapper.dwcdn.net', 'assets-secure.guim.co.uk', 'www.formstack.com', 'www.google.com', 'discussion.theguardian.com', 'www.guardianbookshop.co.uk', 'www.google.co.uk', 'schema.org', 'avatar.guim.co.uk', 'giant.gfycat.com', 'jobs.guardian.co.uk', 'guardian.touch-line.com', 'ballsdot.wpengine.netdna-cdn.com', 'thumbs.gfycat.com', 'dx.doi.org','n0tice-static.s3.amazonaws.com', 'premier.ticketek.com.au','www.ticketmaster.com.au','www.palacecinemas.com.au', 'guardian.co.uk', 'jobs.theguardian.com','cf.datawrapper.de','t.sidekickopen13.com','shop1.racingpost.com','www.32redsport.com', 'gdn-cdn.s3.amazonaws.com', 'blogs.guardian.co.uk', 'arts.guardian.co.uk', 'politics.guardian.co.uk', 'click.email.usoccer.com', 'www.w3.org', 'witness.guardian.co.uk', 'www.top-employers.com', 'bit.ly', 'youtu.be', 'play.google.com', 'www.amazon.co.uk', 'soundcloud.com', 'www.gramfeed.com', 'www.eventbrite.co.uk', 'clkuk.tradedoubler.com', 'www.instagram.com', 'www.twitter.com'];
 
 
 $(document).ready(function(){
    console.log('ready');
 
     //event listener for search button
-    $('#search').click(function() {
-        query = $('#search-box').val();
-        //reset storage objects to null each time the search button is clicked
-        journo={};
-        journoError = {};
-        domains = {};
-
-        //get the total number of pages of articles available for the search term - this in turn calls a function to get and parse the data
-        getTotalPages();
-
-        //we now need to wait for getTotalPages and its related functions to process the data and store in the global variables
-        //if we don't wait, the variable return as undefined as there is quite a lot of processing going on
-        console.log('Waiting...');
-        $('#please-wait').slideDown(500);
-        setTimeout(function() {
-
-            //filter the erroneous domains from the overall list of domains
-            suppressDomains(domains);
-            //put the top 6 sites into an array
-            getTopSix(domains, topSix);
-            //push them to the page
-            renderSiteResults();
-            //put top 6 journos into an array
-            getTopSix(journo, topSixJourno);
-            console.log(topSixJourno);
-            //push them to the page
-            renderJournoResult();
-            //hide please wait section
-            $('#please-wait').slideUp(500);
-            //draw histogram
-            drawHistogram(topSix);
-            //update site and link totals
-            updateTotals(domains);
-
-        }, 5000);
-
-
+    $('#search').on('click', callAPI);
+    $('body').on('keypress', function(keycode){
+        if (keycode.which === 13) {
+            callAPI();
+        }
     });
 
-
-
-
-
 });
+
+function callAPI() {
+    query = $('#search-box').val();
+    //reset storage objects to null each time the search button is clicked
+    journo={};
+    journoError = {};
+    domains = {};
+
+    //get the total number of pages of articles available for the search term - this in turn calls a function to get and parse the data
+    getTotalPages();
+
+    //we now need to wait for getTotalPages and its related functions to process the data and store in the global variables
+    //if we don't wait, the variable return as undefined as there is quite a lot of processing going on
+    console.log('Waiting...');
+    $('#please-wait').slideDown(500);
+    setTimeout(function() {
+
+        //filter the erroneous domains from the overall list of domains
+        suppressDomains(domains);
+        //put the top 6 sites into an array
+        getTopSix(domains, topSix);
+        //push them to the page
+        renderSiteResults();
+        //put top 6 journos into an array
+        getTopSix(journo, topSixJourno);
+        console.log(topSixJourno);
+        //push them to the page
+        renderJournoResult();
+        //hide please wait section
+        $('#please-wait').slideUp(500);
+        //draw histogram
+        drawHistogram(topSix);
+        //update site and link totals
+        updateTotals(domains);
+
+    }, 5000);
+
+
+}
 
 function getTotalPages() {
     //grab the first page of article results and find out how many pages there are
@@ -71,6 +74,7 @@ function getTotalPages() {
         'format': 'json'
     };
     var url = 'http://content.guardianapis.com/search';
+
     $.getJSON(url, data, function(response) {
         //this function will retrieve all the results for all the pages available, but this needs to be throttled as its breaking the API
         runPagesTimes(response);
@@ -80,9 +84,13 @@ function getTotalPages() {
 function runPagesTimes(response) {
     console.log(response);
     var totalPages = response.response.pages;
+
+    //get the first 10 pages of results, or less if there are less results, returning a maximum total of 100 articles
+    totalPages>10 ? totalPages=10 : null;
+
     console.log(totalPages);
-    //get the first 10 pages of results, each page has 10 articles, returning 100 articles in total
-    for (var i=1; i<=10; i++){
+
+    for (var i=1; i<= totalPages; i++){
         //console.log(i);
         //access the API and grab the JSON object
         getGuardianContent(i);
@@ -190,7 +198,7 @@ function suppressDomains(domains) {
 }
 
 function getTopSix(obj, arr) {
-    //this function cycles through the domain array 6 times and takes the largest key-value domain-count pair and adds pushes it
+    //this function cycles through the domain array up to 6 times and takes the largest key-value domain-count pair and pushes it
     //into a multi-dimensional array. It then sets that highest property to null, and repeats the process.
     for (var j = 0; j < 6; j++) {
         //console.log('j loop number: ' + j);
@@ -203,10 +211,15 @@ function getTopSix(obj, arr) {
                 arr[j] = [i, obj[i]];
             }
         }
-        var removeHighest = arr[j][0];
-        obj[removeHighest] = null;
+        if (arr[j] !== undefined) {
+            var removeHighest = arr[j][0];
+            obj[removeHighest] = null;
+        }
+        else {
+            console.log('error, no domains found...');
+        }
+
     }
-    //console.log(obj);
 }
 
 function renderSiteResults(){
