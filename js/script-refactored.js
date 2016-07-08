@@ -23,9 +23,9 @@ var go = function() {
         if (err) {
             console.log('fetchResults error=', err);
             $('#messages').css('display', 'block');
-
+            $('#histogram').css('visibility', 'hidden');
+            $('aside').css('visibility', 'hidden');
             var errorMessage = err.serverResponse.responseJSON.response.message;
-
             $('#error-message').html('<p>' + errorMessage + '</p>');
 
         }
@@ -36,6 +36,9 @@ var go = function() {
             console.log('topSixDomains=', topSixDomains);
             //and render onto page
             $('#histogram').css('visibility', 'visible');
+
+
+
             for (var i=1; i<topSixDomains.length+1; i++){
                 $('div#site' + i).html('<p><a class="external-link" target="_new" href="http://' + topSixDomains[i-1].key + '">' + topSixDomains[i-1].key + '</a></p>');
                 $('div.site' + i + ' p.score').text(topSixDomains[i-1].value);
@@ -46,8 +49,13 @@ var go = function() {
             console.log('topSixJournos=', topSixJournos);
             //and render onto page
             $('aside').css('visibility', 'visible');
-            for (var j=1; j<topSixJournos.length+1; j++){
-                $('#journo-list dd:nth-child(' + j + ')').text(topSixJournos[j-1].key.toLowerCase());
+            for (var j=1; j<7; j++){
+                if (topSixJournos[j-1] !== undefined) {
+                    $('#journo-list dd:nth-child(' + j + ')').html(topSixJournos[j-1].key.toLowerCase());
+                }
+                else {
+                    $('#journo-list dd:nth-child(' + j + ')').html('&nbsp;');
+                }
             }
 
             //now draw the histogram
@@ -85,50 +93,84 @@ var fetchResults = function(pageNum, callback) {
 
             var totalPages = success.response.pages;
 
-            //only get a maximum of 10 pages of results, total 100 articles
-            totalPages > 10 ? totalPages = 10 : null;
+            //console.log('totalPages=', totalPages);
 
-            //parse the current array of results
-            var results = success.response.results;
-            console.log('results=', results);
-
-
-            for (var i = 0; i < results.length; i++) {
-                //if there is any data within the results array in the fields field
-                if (results[i].fields !== undefined) {
-                    //check is there is any data in the body field
-                    if (results[i].fields.body !== undefined) {
-                        //pull the URLs from each article and store in an array called anchor
-                        var anchor = results[i].fields.body.match(/\/\/.*?\//g);
-                        if (anchor !== null) {
-                            for (var j = 0; j < anchor.length; j++) {
-                                //remove preceeding and trailing forward slashes
-                                anchor[j] = anchor[j].slice(2, -1);
-                                //take anchors with less than 50 characters, check they are valid domains, if true check the domains object and and see if it's been saved before, if so, increment value by one, if not, add the anchor into the domain object
-                                anchor[j].length < 50 ? validDomain(anchor[j]) ? domains.hasOwnProperty(anchor[j]) ? domains[anchor[j]] += 1 : domains[anchor[j]] = 1 : null : null;
+            if (totalPages === 0) {
+                //no results
+                callback(null, {
+                    errorMessage: 'no results returned for that search term',
+                    serverResponse: {
+                        responseJSON: {
+                            response: {
+                                message: 'No results returned for that search term'
                             }
                         }
                     }
-                    //for bylines that exist, check if the byline has previously been added into the journos object and if so, increment by one, if not add in a new byline to the object
-                    results[i].fields.byline !== undefined ? journos.hasOwnProperty((results[i].fields.byline)) ? journos[results[i].fields.byline] += 1 : journos[results[i].fields.byline] = 1 : null;
-                }
-            }
-            //check if all the pages have been called
-            if (pageNum === totalPages) {
-                console.log('finished...');
-                callback({
-                    domains: domains,
-                    journos: journos
                 });
             }
             else {
-                //if not, get next page's worth of results
-                pageNum++;
-                fetchResults(pageNum, callback);
-            }
+                //only get a maximum of 10 pages of results, total 100 articles
+                totalPages > 10 ? totalPages = 10 : null;
 
-            //console.log('domains=', domains);
-            //console.log('journos=', journos);
+                //parse the current array of results
+                var results = success.response.results;
+                //console.log('results=', results);
+
+
+                for (var i = 0; i < results.length; i++) {
+                    //if there is any data within the results array in the fields field
+                    if (results[i].fields !== undefined) {
+                        //check is there is any data in the body field
+                        if (results[i].fields.body !== undefined) {
+                            //pull the URLs from each article and store in an array called anchor
+                            var anchor = results[i].fields.body.match(/\/\/.*?\//g);
+                            if (anchor !== null) {
+                                for (var j = 0; j < anchor.length; j++) {
+                                    //remove preceeding and trailing forward slashes
+                                    anchor[j] = anchor[j].slice(2, -1);
+                                    //take anchors with less than 50 characters, check they are valid domains, if true check the domains object and and see if it's been saved before, if so, increment value by one, if not, add the anchor into the domain object
+                                    anchor[j].length < 50 ? validDomain(anchor[j]) ? domains.hasOwnProperty(anchor[j]) ? domains[anchor[j]] += 1 : domains[anchor[j]] = 1 : null : null;
+                                }
+                            }
+                        }
+                        //for bylines that exist, check if the byline has previously been added into the journos object and if so, increment by one, if not add in a new byline to the object
+                        results[i].fields.byline !== undefined ? journos.hasOwnProperty((results[i].fields.byline)) ? journos[results[i].fields.byline] += 1 : journos[results[i].fields.byline] = 1 : null;
+                    }
+                }
+                //check if all the pages have been called
+                if (pageNum === totalPages) {
+                    console.log('finished...');
+                    console.log('domains=', domains);
+                    console.log('journos=', journos);
+                    if ($.isEmptyObject(domains)) {
+                        //console.log('domains is empty', domains);
+                        callback(null, {
+                            errorMessage: 'No sites returned for that search term',
+                            serverResponse: {
+                                responseJSON: {
+                                    response: {
+                                        message: 'No sites returned for that search term'
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        callback({
+                            domains: domains,
+                            journos: journos
+                        });
+                    }
+                }
+                else {
+                    //if not, get next page's worth of results
+                    pageNum++;
+                    fetchResults(pageNum, callback);
+                }
+
+                //console.log('domains=', domains);
+                //console.log('journos=', journos);
+            }
         })
         .fail(function (error) {
             //server returned an error
@@ -137,7 +179,6 @@ var fetchResults = function(pageNum, callback) {
                 serverResponse: error
             });
         });
-
 };
 
 var validDomain = function(domain) {
