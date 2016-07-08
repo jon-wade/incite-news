@@ -23,10 +23,10 @@ You can access a working prototype of the app here: http://jonwade.digital/hoste
 The app's functionality includes:
 
 * Listing the top 6 external domains cited by *The Guardian* on any given search query with links to those sites
-* A Histogram plot of the relative popularity of those top 6 sites
-* Listing the top 6 bylines associated with any given search query with Google search links on those bylines
+* A histogram plot of the relative popularity of those top 6 sites
+* Listing the top 6 bylines associated with any given search query with Google search links associated to those bylines
 * Detailing the total number of anchor links within the articles returned by *The Guardian*'s Open Platform API
-* Detailing the total number of domains associated with those links
+* Detailing the total number of unique domains associated with those links
 * Suppressing internal links to *The Guardian* and key social media sites from the overall results
 
 ##Technical
@@ -38,8 +38,8 @@ The app is built entirely in jQuery and makes use of AJAX calls to The Guardians
 This is v1.0 of the app, but future enhancements are expected to include:
 
 * Extending the app to analyse other top tier newspaper publications which offer an API (e.g. New York Times etc)
-* Plotting the interconnection of story sourcing between different newspaper publications (e.g. is there a particular publication that leads opinion more than any other on a given topic)
+* Plotting the inter-connection of story sourcing between different newspaper publications (e.g. is there a particular publication that leads opinion more than any other on a given topic?)
 * Adding a filter to allow the inclusion or exclusion of social media properties in the results
 * Increasing the number of sites and bylines returned from the current six to an amount specified by the user
-* Pulling in byline journalist email addresses and profile headshots automatically, to save the google search process employed presently
+* Pulling in byline journalist email addresses and profile head shots automatically, to save the google search process employed presently
 * Allowing a user-controlled site suppression list to be used to control the sites that are returned in the analysis
