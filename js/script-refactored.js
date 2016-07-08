@@ -38,10 +38,16 @@ var go = function() {
             $('#histogram').css('visibility', 'visible');
 
 
+            for (var i=1; i<7; i++){
+                if(topSixDomains[i-1] !== undefined) {
+                    $('div#site' + i).html('<p><a class="external-link" target="_new" href="http://' + topSixDomains[i-1].key + '">' + topSixDomains[i-1].key + '</a></p>');
+                    $('div.site' + i + ' p.score').text(topSixDomains[i-1].value);
+                }
+                else {
+                    $('div#site' + i).html('&nbsp;');
+                    $('div.site' + i + ' p.score').text('');
+                }
 
-            for (var i=1; i<topSixDomains.length+1; i++){
-                $('div#site' + i).html('<p><a class="external-link" target="_new" href="http://' + topSixDomains[i-1].key + '">' + topSixDomains[i-1].key + '</a></p>');
-                $('div.site' + i + ' p.score').text(topSixDomains[i-1].value);
             }
 
             //now we need to extract the top 6 journos and put them into an array
@@ -51,7 +57,7 @@ var go = function() {
             $('aside').css('visibility', 'visible');
             for (var j=1; j<7; j++){
                 if (topSixJournos[j-1] !== undefined) {
-                    $('#journo-list dd:nth-child(' + j + ')').html(topSixJournos[j-1].key.toLowerCase());
+                    $('#journo-list dd:nth-child(' + j + ')').html('<a target="_new" class="external-link" href="https://www.google.co.uk/search?q=guardian%20' + encodeURIComponent(topSixJournos[j-1].key) + '">' + topSixJournos[j-1].key.toLowerCase() + '</a>');
                 }
                 else {
                     $('#journo-list dd:nth-child(' + j + ')').html('&nbsp;');
@@ -183,7 +189,7 @@ var fetchResults = function(pageNum, callback) {
 
 var validDomain = function(domain) {
 
-    var suppression = ['twitter', 'guardian', 'gu.com', 'google', 'facebook', 'brightcove', 'guim', 'vox-cdn', 'formstack', 't.co', 'youtube', 'gutools', 'instagram', 'proofpoint', 'datawrapper', 'schema.org', 'gfycat', 'netdna-cdn', 'dx.doi.org', 'amazonaws', 'ticketek', 'ticketmaster', 'palacecinemas', 'racingpost', '32redsport', 'usoccer.com', 'w3.org', 'bit.ly', 'youtu.be', 'amazon.co.uk', 'soundcloud.com', 'gramfeed.com', 'eventbrite', 'tradedoubler', 'londontheatres.co.uk', 'jackson-stops', 'vimeo', 'gutools', 'squarespace', 'dailymotion'];
+    var suppression = ['twitter', 'guardian', 'gu.com', 'google', 'facebook', 'brightcove', 'guim', 'vox-cdn', 'formstack', 't.co', 'youtube', 'gutools', 'instagram', 'proofpoint', 'datawrapper', 'schema.org', 'gfycat', 'netdna-cdn', 'dx.doi.org', 'amazonaws', 'ticketek', 'ticketmaster', 'palacecinemas', 'racingpost', '32redsport', 'usoccer.com', 'w3.org', 'bit.ly', 'youtu.be', 'amazon.co.uk', 'soundcloud.com', 'gramfeed.com', 'eventbrite', 'tradedoubler', 'londontheatres.co.uk', 'jackson-stops', 'vimeo', 'gutools', 'squarespace', 'dailymotion', 'justinsholk.com'];
 
     var match = suppression.filter(function(item) {
         return domain.includes(item);
@@ -206,7 +212,7 @@ var topSix = function (obj) {
 function drawHistogram(topSix){
     //work out sum of topSix scores
     var sum=0;
-    var siteOneSize, siteTwoSize, siteThreeSize, siteFourSize, siteFiveSize, siteSixSize;
+    var siteOneSize, siteTwoSize, siteThreeSize, siteFourSize, siteFiveSize, siteSixSize = 0;
 
     if(topSix.length === 0) {
         //no results to plot, need an error message to be displayed
@@ -215,27 +221,64 @@ function drawHistogram(topSix){
         for (var i=0; i<topSix.length; i++){
             sum = sum + topSix[i].value;
         }
-        for (var j=0; j<topSix.length; j++){
+        for (var j=0; j<6; j++){
             switch (j) {
                 case 0:
                     siteOneSize = ((topSix[0].value)/sum);
+                    //console.log('siteOneSize', siteOneSize);
                     break;
                 case 1:
-                    siteTwoSize = Math.round((((topSix[1].value)/sum)/siteOneSize)*100);
-                    break;
+                    if (topSix[1] !== undefined){
+                        siteTwoSize = Math.round((((topSix[1].value)/sum)/siteOneSize)*100);
+                        //console.log('siteTwoSize', siteTwoSize);
+                        break;
+                    }
+                    else {
+                        siteTwoSize = 0;
+                        break;
+                    }
                 case 2:
-                    siteThreeSize = Math.round((((topSix[2].value)/sum)/siteOneSize)*100);
-                    break;
+                    if (topSix[2] !== undefined) {
+                        siteThreeSize = Math.round((((topSix[2].value)/sum)/siteOneSize)*100);
+                        //console.log('siteThreeSize', siteThreeSize);
+                        break;
+                    }
+                    else {
+                        siteThreeSize = 0;
+                        break;
+                    }
                 case 3:
-                    siteFourSize = Math.round((((topSix[3].value)/sum)/siteOneSize)*100);
-                    break;
+                    if (topSix[3] !== undefined) {
+                        siteFourSize = Math.round((((topSix[3].value)/sum)/siteOneSize)*100);
+                        //console.log('siteFourSize', siteFourSize);
+                        break;
+                    }
+                    else {
+                        siteFourSize = 0;
+                        break;
+                    }
                 case 4:
-                    siteFiveSize = Math.round((((topSix[4].value)/sum)/siteOneSize)*100);
-                    break;
+                    if (topSix[4] !== undefined) {
+                        siteFiveSize = Math.round((((topSix[4].value)/sum)/siteOneSize)*100);
+                        //console.log('siteFiveSize', siteFiveSize);
+                        break;
+                    }
+                    else {
+                        siteFiveSize = 0;
+                        break;
+                    }
                 case 5:
-                    siteSixSize = Math.round((((topSix[5].value)/sum)/siteOneSize)*100);
-                    break;
+                    if (topSix[5] !== undefined) {
+                        siteSixSize = Math.round((((topSix[5].value)/sum)/siteOneSize)*100);
+                        //console.log('siteSixSize', siteSixSize);
+                        break;
+                    }
+                    else {
+                        siteSixSize = 0;
+                        break;
+                    }
                 default:
+                    //console.log('looking at case= ', j);
                     break;
             }
         }
