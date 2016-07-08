@@ -18,9 +18,16 @@ $(document).ready(function(){
 var go = function() {
     domains = {};
     journos = {};
+    $('#messages').css('display', 'none');
     fetchResults(1, function (res, err) {
         if (err) {
             console.log('fetchResults error=', err);
+            $('#messages').css('display', 'block');
+
+            var errorMessage = err.serverResponse.responseJSON.response.message;
+
+            $('#error-message').html('<p>' + errorMessage + '</p>');
+
         }
         else {
             console.log('fetchResults result=', res);
@@ -30,7 +37,7 @@ var go = function() {
             //and render onto page
             $('#histogram').css('visibility', 'visible');
             for (var i=1; i<topSixDomains.length+1; i++){
-                $('div#site' + i).html('<p><a class="external-link" href="http://' + topSixDomains[i-1].key + '">' + topSixDomains[i-1].key + '</a></p>');
+                $('div#site' + i).html('<p><a class="external-link" target="_new" href="http://' + topSixDomains[i-1].key + '">' + topSixDomains[i-1].key + '</a></p>');
                 $('div.site' + i + ' p.score').text(topSixDomains[i-1].value);
             }
 
@@ -158,32 +165,50 @@ var topSix = function (obj) {
 function drawHistogram(topSix){
     //work out sum of topSix scores
     var sum=0;
-    for (var i=0; i<topSix.length; i++){
-        sum = sum + topSix[i].value;
-    }
-    //console.log(sum);
-    //work out the length of each bar as a % of the top result
-    var siteOneSize = ((topSix[0].value)/sum);
-    var siteTwoSize = Math.round((((topSix[1].value)/sum)/siteOneSize)*100);
-    //console.log('site2 size: ' + (siteTwoSize));
-    var siteThreeSize = Math.round((((topSix[2].value)/sum)/siteOneSize)*100);
-    //console.log('site3 size: ' + (siteThreeSize));
-    var siteFourSize = Math.round((((topSix[3].value)/sum)/siteOneSize)*100);
-    //console.log('site4 size: ' + (siteFourSize));
-    var siteFiveSize = Math.round((((topSix[4].value)/sum)/siteOneSize)*100);
-    //console.log('site5 size: ' + (siteFiveSize));
-    var siteSixSize = Math.round((((topSix[5].value)/sum)/siteOneSize)*100);
-    //console.log('site6 size: ' + (siteSixSize));
-    siteOneSize=100;
-    //console.log('site1 size: ' + siteOneSize);
+    var siteOneSize, siteTwoSize, siteThreeSize, siteFourSize, siteFiveSize, siteSixSize;
 
-    //set width of divs
-    $('div.site1').css('width', siteOneSize+'%');
-    $('div.site2').css('width', siteTwoSize+'%');
-    $('div.site3').css('width', siteThreeSize+'%');
-    $('div.site4').css('width', siteFourSize+'%');
-    $('div.site5').css('width', siteFiveSize+'%');
-    $('div.site6').css('width', siteSixSize+'%');
+    if(topSix.length === 0) {
+        //no results to plot, need an error message to be displayed
+    }
+    else {
+        for (var i=0; i<topSix.length; i++){
+            sum = sum + topSix[i].value;
+        }
+        for (var j=0; j<topSix.length; j++){
+            switch (j) {
+                case 0:
+                    siteOneSize = ((topSix[0].value)/sum);
+                    break;
+                case 1:
+                    siteTwoSize = Math.round((((topSix[1].value)/sum)/siteOneSize)*100);
+                    break;
+                case 2:
+                    siteThreeSize = Math.round((((topSix[2].value)/sum)/siteOneSize)*100);
+                    break;
+                case 3:
+                    siteFourSize = Math.round((((topSix[3].value)/sum)/siteOneSize)*100);
+                    break;
+                case 4:
+                    siteFiveSize = Math.round((((topSix[4].value)/sum)/siteOneSize)*100);
+                    break;
+                case 5:
+                    siteSixSize = Math.round((((topSix[5].value)/sum)/siteOneSize)*100);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        siteOneSize=100;
+        //set width of divs
+        $('div.site1').css('width', siteOneSize+'%');
+        $('div.site2').css('width', siteTwoSize+'%');
+        $('div.site3').css('width', siteThreeSize+'%');
+        $('div.site4').css('width', siteFourSize+'%');
+        $('div.site5').css('width', siteFiveSize+'%');
+        $('div.site6').css('width', siteSixSize+'%');
+
+    }
 
 }
 
