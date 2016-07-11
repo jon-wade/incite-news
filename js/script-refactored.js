@@ -192,7 +192,10 @@ var validDomain = function(domain) {
     var suppression = ['twitter', 'guardian', 'gu.com', 'google', 'facebook', 'brightcove', 'guim', 'vox-cdn', 'formstack', 't.co', 'youtube', 'gutools', 'instagram', 'proofpoint', 'datawrapper', 'schema.org', 'gfycat', 'netdna-cdn', 'dx.doi.org', 'amazonaws', 'ticketek', 'ticketmaster', 'palacecinemas', 'racingpost', '32redsport', 'usoccer.com', 'w3.org', 'bit.ly', 'youtu.be', 'amazon.co.uk', 'soundcloud.com', 'gramfeed.com', 'eventbrite', 'tradedoubler', 'londontheatres.co.uk', 'jackson-stops', 'vimeo', 'gutools', 'squarespace', 'dailymotion', 'justinsholk.com'];
 
     var match = suppression.filter(function(item) {
-        return domain.includes(item);
+        //includes() does not work in IE!!
+        //return domain.includes(item);
+         return domain.indexOf(item) > -1;
+
     });
 
     return match.length<=0;
