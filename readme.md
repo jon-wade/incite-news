@@ -1,7 +1,7 @@
 # guardian-api
 Thinkful (https://www.thinkful.com) Unit 1 Portfolio Exercise - jQuery app integrating with *The Guardian*'s Open Platform API
 
-![Screenshot](http://jonwade.digital/hosted-projects/github-images/incite-news-screenshot.jpg)
+![Screenshot](http://jonwade.digital/hosted-projects/github-images/incite-news-screenshot.png)
 
 ##Background
 
